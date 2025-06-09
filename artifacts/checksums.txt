@@ -1,1 +1,1 @@
-9af943f400e9b8841996662c8178072becb220c9b9f8551bf0c90391f6d806cb  brickken_protocol.wasm
+1f637f83a04599243ea7d28dac4826ffe8b1f095b0cdb71baa0288a6c4a7ce3a  brickken_protocol.wasm

@@ -1,0 +1,19 @@
+{
+  "name": "brickken-protocol-client",
+  "version": "1.0.0",
+  "description": "TypeScript client for interacting with Brickken Protocol smart contract",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@cosmjs/cosmwasm-stargate": "^0.32.2",
+    "@cosmjs/proto-signing": "^0.32.2",
+    "@cosmjs/stargate": "^0.32.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

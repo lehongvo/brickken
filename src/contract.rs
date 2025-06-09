@@ -21,6 +21,7 @@ pub fn instantiate(
     let state = State {
         count: msg.count,
         owner: info.sender.clone(),
+        description: "Brickken Protocol Counter".to_string(),
     };
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
     STATE.save(deps.storage, &state)?;
@@ -28,7 +29,8 @@ pub fn instantiate(
     Ok(Response::new()
         .add_attribute("method", "instantiate")
         .add_attribute("owner", info.sender)
-        .add_attribute("count", msg.count.to_string()))
+        .add_attribute("count", msg.count.to_string())
+        .add_attribute("description", state.description))
 }
 
 #[cfg_attr(not(feature = "library"), entry_point)]
@@ -41,6 +43,7 @@ pub fn execute(
     match msg {
         ExecuteMsg::Increment {} => execute::increment(deps),
         ExecuteMsg::Reset { count } => execute::reset(deps, info, count),
+        ExecuteMsg::UpdateDescription { description } => execute::update_description(deps, info, description),
     }
 }
 
@@ -66,6 +69,17 @@ pub mod execute {
         })?;
         Ok(Response::new().add_attribute("action", "reset"))
     }
+
+    pub fn update_description(deps: DepsMut, info: MessageInfo, description: String) -> Result<Response, ContractError> {
+        STATE.update(deps.storage, |mut state| -> Result<_, ContractError> {
+            if info.sender != state.owner {
+                return Err(ContractError::Unauthorized {});
+            }
+            state.description = description;
+            Ok(state)
+        })?;
+        Ok(Response::new().add_attribute("action", "update_description"))
+    }
 }
 
 #[cfg_attr(not(feature = "library"), entry_point)]
@@ -73,12 +87,13 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
     match msg {
         QueryMsg::GetCount {} => to_json_binary(&query::count(deps)?),
         QueryMsg::GetOwner {} => to_json_binary(&query::owner(deps)?),
+        QueryMsg::GetDescription {} => to_json_binary(&query::description(deps)?),
     }
 }
 
 pub mod query {
     use super::*;
-    use crate::msg::GetOwnerResponse;
+    use crate::msg::{GetDescriptionResponse, GetOwnerResponse};
 
     pub fn count(deps: Deps) -> StdResult<GetCountResponse> {
         let state = STATE.load(deps.storage)?;
@@ -88,6 +103,11 @@ pub mod query {
     pub fn owner(deps: Deps) -> StdResult<GetOwnerResponse> {
         let state = STATE.load(deps.storage)?;
         Ok(GetOwnerResponse { owner: state.owner.to_string() })
+    }
+
+    pub fn description(deps: Deps) -> StdResult<GetDescriptionResponse> {
+        let state = STATE.load(deps.storage)?;
+        Ok(GetDescriptionResponse { description: state.description })
     }
 }
 

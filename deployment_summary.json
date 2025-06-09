@@ -5,17 +5,17 @@
   "wallet_address": "neutron1822rfvhsq4qmzem3yu7y0mq76u8tju6z2ezwlw",
   "deployment": {
     "upload": {
-      "tx_hash": "6D71042244244C4E5A189BB796B68C489869CD09EA7936D56C52C66813BFCC81",
-      "code_id": "12093",
+      "tx_hash": "A4CC1CFE028B590E95795135873FCC9B5E8F6F7AC08F904B92B8D5502C647735",
+      "code_id": "12094",
       "status": "success",
-      "gas_used": "1412166",
+      "gas_used": "1447659",
       "fees_paid": "30000untrn"
     },
     "instantiate": {
-      "tx_hash": "A4EE776210922067B0241BE86D7AA372F4690B7452CE0C44F46CE87385F051B3",
-      "contract_address": "neutron19p6hwgjfjd5e82r7m7y3qu3zngu86mexxx5vc7h583qktj4v6grsyxgzw3",
+      "tx_hash": "BF711D587E86576561CBC26C19F0D2442A40AD371F9B80CAF4200EDC810B1B14",
+      "contract_address": "neutron1hm35xuas7n8km0ce7xldhhvrddu6h4hjpskc2h73jj6ayxmlwpxsfxcnxv",
       "status": "success",
-      "gas_used": "219188",
+      "gas_used": "220540",
       "fees_paid": "30000untrn",
       "init_msg": {"count": 0}
     }
@@ -23,23 +23,23 @@
   "contract_info": {
     "name": "brickken-protocol",
     "wasm_file": "artifacts/brickken_protocol.wasm",
-    "checksum": "9af943f400e9b8841996662c8178072becb220c9b9f8551bf0c90391f6d806cb",
+    "checksum": "1f637f83a04599243ea7d28dac4826ffe8b1f095b0cdb71baa0288a6c4a7ce3a",
     "label": "brickken-protocol",
     "admin": "none (immutable contract)"
   },
   "explorer_links": {
-    "upload_transaction": "https://neutron.celat.one/pion-1/tx/6D71042244244C4E5A189BB796B68C489869CD09EA7936D56C52C66813BFCC81",
-    "instantiate_transaction": "https://neutron.celat.one/pion-1/tx/A4EE776210922067B0241BE86D7AA372F4690B7452CE0C44F46CE87385F051B3",
-    "contract": "https://neutron.celat.one/pion-1/contracts/neutron19p6hwgjfjd5e82r7m7y3qu3zngu86mexxx5vc7h583qktj4v6grsyxgzw3",
-    "code": "https://neutron.celat.one/pion-1/codes/12093"
+    "upload_transaction": "https://neutron.celat.one/pion-1/tx/A4CC1CFE028B590E95795135873FCC9B5E8F6F7AC08F904B92B8D5502C647735",
+    "instantiate_transaction": "https://neutron.celat.one/pion-1/tx/BF711D587E86576561CBC26C19F0D2442A40AD371F9B80CAF4200EDC810B1B14",
+    "contract": "https://neutron.celat.one/pion-1/contracts/neutron1hm35xuas7n8km0ce7xldhhvrddu6h4hjpskc2h73jj6ayxmlwpxsfxcnxv",
+    "code": "https://neutron.celat.one/pion-1/codes/12094"
   },
   "commands": {
-    "query_code": "neutrond query wasm code 12093 --node https://rpc-palvus.pion-1.ntrn.tech:443",
-    "query_contract": "neutrond query wasm contract neutron19p6hwgjfjd5e82r7m7y3qu3zngu86mexxx5vc7h583qktj4v6grsyxgzw3 --node https://rpc-palvus.pion-1.ntrn.tech:443",
-    "query_count": "neutrond query wasm contract-state smart neutron19p6hwgjfjd5e82r7m7y3qu3zngu86mexxx5vc7h583qktj4v6grsyxgzw3 '{\"get_count\":{}}' --node https://rpc-palvus.pion-1.ntrn.tech:443",
-    "query_owner": "neutrond query wasm contract-state smart neutron19p6hwgjfjd5e82r7m7y3qu3zngu86mexxx5vc7h583qktj4v6grsyxgzw3 '{\"get_owner\":{}}' --node https://rpc-palvus.pion-1.ntrn.tech:443",
-    "execute_increment": "neutrond tx wasm execute neutron19p6hwgjfjd5e82r7m7y3qu3zngu86mexxx5vc7h583qktj4v6grsyxgzw3 '{\"increment\":{}}' --from custom-wallet --keyring-backend test --gas auto --gas-adjustment 1.3 --fees 10000untrn --chain-id pion-1 --node https://rpc-palvus.pion-1.ntrn.tech:443 -y",
-    "execute_reset": "neutrond tx wasm execute neutron19p6hwgjfjd5e82r7m7y3qu3zngu86mexxx5vc7h583qktj4v6grsyxgzw3 '{\"reset\":{\"count\":0}}' --from custom-wallet --keyring-backend test --gas auto --gas-adjustment 1.3 --fees 10000untrn --chain-id pion-1 --node https://rpc-palvus.pion-1.ntrn.tech:443 -y"
+    "query_code": "neutrond query wasm code 12094 --node https://rpc-palvus.pion-1.ntrn.tech:443",
+    "query_contract": "neutrond query wasm contract neutron1hm35xuas7n8km0ce7xldhhvrddu6h4hjpskc2h73jj6ayxmlwpxsfxcnxv --node https://rpc-palvus.pion-1.ntrn.tech:443",
+    "query_count": "neutrond query wasm contract-state smart neutron1hm35xuas7n8km0ce7xldhhvrddu6h4hjpskc2h73jj6ayxmlwpxsfxcnxv '{\"get_count\":{}}' --node https://rpc-palvus.pion-1.ntrn.tech:443",
+    "query_owner": "neutrond query wasm contract-state smart neutron1hm35xuas7n8km0ce7xldhhvrddu6h4hjpskc2h73jj6ayxmlwpxsfxcnxv '{\"get_owner\":{}}' --node https://rpc-palvus.pion-1.ntrn.tech:443",
+    "execute_increment": "neutrond tx wasm execute neutron1hm35xuas7n8km0ce7xldhhvrddu6h4hjpskc2h73jj6ayxmlwpxsfxcnxv '{\"increment\":{}}' --from custom-wallet --keyring-backend test --gas auto --gas-adjustment 1.3 --fees 10000untrn --chain-id pion-1 --node https://rpc-palvus.pion-1.ntrn.tech:443 -y",
+    "execute_reset": "neutrond tx wasm execute neutron1hm35xuas7n8km0ce7xldhhvrddu6h4hjpskc2h73jj6ayxmlwpxsfxcnxv '{\"reset\":{\"count\":0}}' --from custom-wallet --keyring-backend test --gas auto --gas-adjustment 1.3 --fees 10000untrn --chain-id pion-1 --node https://rpc-palvus.pion-1.ntrn.tech:443 -y"
   },
-  "deployed_at": "2025-06-09T07:20:09Z"
+  "deployed_at": "2025-06-09T07:29:48Z"
 }

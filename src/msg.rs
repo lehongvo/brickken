@@ -9,6 +9,7 @@ pub struct InstantiateMsg {
 pub enum ExecuteMsg {
     Increment {},
     Reset { count: i32 },
+    UpdateDescription { description: String },
 }
 
 #[cw_serde]
@@ -21,6 +22,10 @@ pub enum QueryMsg {
     // GetOwner returns the address of the contract owner
     #[returns(GetOwnerResponse)]
     GetOwner {},
+    
+
+    #[returns(GetDescriptionResponse)]
+    GetDescription {},
 }
 
 // We define a custom struct for each query response
@@ -33,4 +38,9 @@ pub struct GetCountResponse {
 #[cw_serde]
 pub struct GetOwnerResponse {
     pub owner: String,
+}
+
+#[cw_serde]
+pub struct GetDescriptionResponse {
+    pub description: String,
 }
