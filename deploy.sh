@@ -59,22 +59,22 @@ if [ "$BALANCE" = "0" ] || [ "$BALANCE" = "null" ]; then
 fi
 echo -e "${GREEN}✅ Balance: $BALANCE untrn${NC}"
 
+# Generate schema and build contract
+echo -e "${YELLOW}📋 Generating contract schema...${NC}"
+cargo schema
+
+echo -e "${YELLOW}🔨 Building optimized contract...${NC}"
+docker run --rm -v "$(pwd)":/code \
+    --mount type=volume,source="$(basename "$(pwd)")_cache",target=/target \
+    --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
+    cosmwasm/optimizer:0.16.0
+
 # Check if contract file exists
 WASM_FILE="artifacts/brickken_protocol.wasm"
 if [ ! -f "$WASM_FILE" ]; then
     echo -e "${RED}❌ Contract file not found: $WASM_FILE${NC}"
-    echo -e "${YELLOW}🔨 Building contract...${NC}"
-    
-    # Build with Docker optimizer
-    docker run --rm -v "$(pwd)":/code \
-        --mount type=volume,source="$(basename "$(pwd)")_cache",target=/target \
-        --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
-        cosmwasm/optimizer:0.16.0
-    
-    if [ ! -f "$WASM_FILE" ]; then
-        echo -e "${RED}❌ Failed to build contract${NC}"
-        exit 1
-    fi
+    echo -e "${RED}❌ Failed to build contract${NC}"
+    exit 1
 fi
 
 echo -e "${GREEN}✅ Contract file found: $WASM_FILE${NC}"
@@ -210,6 +210,7 @@ cat > deployment_summary.json << EOF
     "query_code": "neutrond query wasm code $CODE_ID --node $NODE",
     "query_contract": "neutrond query wasm contract $CONTRACT_ADDRESS --node $NODE",
     "query_count": "neutrond query wasm contract-state smart $CONTRACT_ADDRESS '{\"get_count\":{}}' --node $NODE",
+    "query_owner": "neutrond query wasm contract-state smart $CONTRACT_ADDRESS '{\"get_owner\":{}}' --node $NODE",
     "execute_increment": "neutrond tx wasm execute $CONTRACT_ADDRESS '{\"increment\":{}}' --from $WALLET_NAME --keyring-backend $KEYRING_BACKEND --gas auto --gas-adjustment 1.3 --fees 10000untrn --chain-id $CHAIN_ID --node $NODE -y",
     "execute_reset": "neutrond tx wasm execute $CONTRACT_ADDRESS '{\"reset\":{\"count\":0}}' --from $WALLET_NAME --keyring-backend $KEYRING_BACKEND --gas auto --gas-adjustment 1.3 --fees 10000untrn --chain-id $CHAIN_ID --node $NODE -y"
   },
@@ -224,10 +225,16 @@ echo -e "${BLUE}🧪 Testing contract...${NC}"
 echo -e "${YELLOW}📤 Querying current count...${NC}"
 neutrond query wasm contract-state smart $CONTRACT_ADDRESS '{"get_count":{}}' --node $NODE
 
+echo -e "${YELLOW}📤 Querying contract owner...${NC}"
+neutrond query wasm contract-state smart $CONTRACT_ADDRESS '{"get_owner":{}}' --node $NODE
+
 echo ""
 echo -e "${GREEN}🚀 Ready to use! Try these commands:${NC}"
 echo -e "${YELLOW}Query count:${NC}"
 echo "neutrond query wasm contract-state smart $CONTRACT_ADDRESS '{\"get_count\":{}}' --node $NODE"
+echo ""
+echo -e "${YELLOW}Query owner:${NC}"
+echo "neutrond query wasm contract-state smart $CONTRACT_ADDRESS '{\"get_owner\":{}}' --node $NODE"
 echo ""
 echo -e "${YELLOW}Increment count:${NC}"
 echo "neutrond tx wasm execute $CONTRACT_ADDRESS '{\"increment\":{}}' --from $WALLET_NAME --keyring-backend $KEYRING_BACKEND --gas auto --gas-adjustment 1.3 --fees 10000untrn --chain-id $CHAIN_ID --node $NODE -y"
