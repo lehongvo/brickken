@@ -1,4 +1,5 @@
 import { CosmWasmClient, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
+import { PriceResponse } from "./types";
 /**
  * Lớp client để tương tác với Brickken Protocol smart contract
  */
@@ -43,6 +44,16 @@ export declare class BrickkenProtocolClient {
      */
     getDescription(): Promise<string>;
     /**
+     * Truy vấn giá USDT từ Band Protocol Oracle
+     * @returns Thông tin giá từ Band Protocol
+     */
+    getUsdtPriceBand(): Promise<PriceResponse>;
+    /**
+     * Truy vấn giá USDT từ Pyth Network Oracle
+     * @returns Thông tin giá từ Pyth Network
+     */
+    getUsdtPricePyth(): Promise<PriceResponse>;
+    /**
      * Tăng giá trị của biến đếm lên 1
      * @param senderAddress Địa chỉ của người gửi giao dịch
      * @returns Kết quả giao dịch
@@ -62,4 +73,18 @@ export declare class BrickkenProtocolClient {
      * @returns Kết quả giao dịch
      */
     updateDescription(senderAddress: string, description: string): Promise<any>;
+    /**
+     * Thiết lập địa chỉ Band Protocol Oracle (chỉ chủ sở hữu)
+     * @param senderAddress Địa chỉ của người gửi giao dịch (phải là chủ sở hữu)
+     * @param address Địa chỉ của Band Protocol Oracle contract
+     * @returns Kết quả giao dịch
+     */
+    setBandOracleAddress(senderAddress: string, address: string): Promise<any>;
+    /**
+     * Thiết lập địa chỉ Pyth Network Oracle (chỉ chủ sở hữu)
+     * @param senderAddress Địa chỉ của người gửi giao dịch (phải là chủ sở hữu)
+     * @param address Địa chỉ của Pyth Network Oracle contract
+     * @returns Kết quả giao dịch
+     */
+    setPythOracleAddress(senderAddress: string, address: string): Promise<any>;
 }

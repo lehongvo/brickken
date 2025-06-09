@@ -4,7 +4,8 @@ import { GasPrice } from "@cosmjs/stargate";
 import {
   GetCountResponse,
   GetDescriptionResponse,
-  GetOwnerResponse
+  GetOwnerResponse,
+  PriceResponse
 } from "./types";
 
 /**
@@ -102,6 +103,30 @@ export class BrickkenProtocolClient {
     return result.description;
   }
 
+  /**
+   * Truy vấn giá USDT từ Band Protocol Oracle
+   * @returns Thông tin giá từ Band Protocol
+   */
+  async getUsdtPriceBand(): Promise<PriceResponse> {
+    const result = await this.client.queryContractSmart(
+      this.contractAddress,
+      { get_usdt_price_band: {} }
+    ) as PriceResponse;
+    return result;
+  }
+
+  /**
+   * Truy vấn giá USDT từ Pyth Network Oracle
+   * @returns Thông tin giá từ Pyth Network
+   */
+  async getUsdtPricePyth(): Promise<PriceResponse> {
+    const result = await this.client.queryContractSmart(
+      this.contractAddress,
+      { get_usdt_price_pyth: {} }
+    ) as PriceResponse;
+    return result;
+  }
+
   // --- EXECUTE METHODS ---
 
   /**
@@ -156,6 +181,44 @@ export class BrickkenProtocolClient {
       senderAddress,
       this.contractAddress,
       { update_description: { description } },
+      "auto"
+    );
+  }
+
+  /**
+   * Thiết lập địa chỉ Band Protocol Oracle (chỉ chủ sở hữu)
+   * @param senderAddress Địa chỉ của người gửi giao dịch (phải là chủ sở hữu)
+   * @param address Địa chỉ của Band Protocol Oracle contract
+   * @returns Kết quả giao dịch
+   */
+  async setBandOracleAddress(senderAddress: string, address: string): Promise<any> {
+    if (!(this.client instanceof SigningCosmWasmClient)) {
+      throw new Error("setBandOracleAddress yêu cầu SigningCosmWasmClient");
+    }
+
+    return await this.client.execute(
+      senderAddress,
+      this.contractAddress,
+      { set_band_oracle_address: { address } },
+      "auto"
+    );
+  }
+
+  /**
+   * Thiết lập địa chỉ Pyth Network Oracle (chỉ chủ sở hữu)
+   * @param senderAddress Địa chỉ của người gửi giao dịch (phải là chủ sở hữu)
+   * @param address Địa chỉ của Pyth Network Oracle contract
+   * @returns Kết quả giao dịch
+   */
+  async setPythOracleAddress(senderAddress: string, address: string): Promise<any> {
+    if (!(this.client instanceof SigningCosmWasmClient)) {
+      throw new Error("setPythOracleAddress yêu cầu SigningCosmWasmClient");
+    }
+
+    return await this.client.execute(
+      senderAddress,
+      this.contractAddress,
+      { set_pyth_oracle_address: { address } },
       "auto"
     );
   }
